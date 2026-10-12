@@ -1,0 +1,18 @@
+{
+    "name": "silvershop-cookieconsent",
+    "version": "1.0.0",
+    "description": "Client asset build for the silvershop/cookieconsent module.",
+    "type": "module",
+    "private": true,
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "watch": "vite build --watch",
+        "preview": "vite preview"
+    },
+    "license": "BSD-3-Clause",
+    "devDependencies": {
+        "sass": "^1.80.6",
+        "vite": "^6.4.1"
+    }
+}

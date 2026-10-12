@@ -1,0 +1,67 @@
+{
+    "name": "silvershop/cookieconsent",
+    "description": "A first-class, self-hosted consent-management platform (CMP) for SilverStripe: an accessible cookie banner + in-banner preferences centre, a server + JS consent-state API ($HasConsent), true script/tag blocking, Google Consent Mode v2 signalling and an immutable consent log. Works on any SilverStripe 6 site - no shop dependency.",
+    "type": "silverstripe-vendormodule",
+    "keywords": ["silverstripe", "silvershop", "gdpr", "cookie", "consent", "cmp", "privacy", "consent-mode"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "SilverShop Contributors",
+            "homepage": "https://github.com/silvershop/silvershop-cookieconsent/graphs/contributors"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "silverstripe/framework": "^6",
+        "silverstripe/cms": "^6",
+        "silverstripe/admin": "^3",
+        "silverstripe/siteconfig": "^6"
+    },
+    "require-dev": {
+        "cambis/silverstan": "^2.1",
+        "silverstripe/recipe-testing": "^4",
+        "silverstripe/sqlite3": "^4",
+        "squizlabs/php_codesniffer": "^3.0"
+    },
+    "suggest": {
+        "tractorcow/silverstripe-fluent": "Localises the banner copy and the cookie declaration (categories + cookies).",
+        "symbiote/silverstripe-gridfieldextensions": "Adds drag-and-drop ordering to the cookie declaration in the CMS.",
+        "symbiote/silverstripe-queuedjobs": "Schedules the immutable consent-log retention prune as a recurring job.",
+        "silvershop/analytics": "Consent bridge - statistics consent flips the analytics session flag with zero coupling."
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "stan": "vendor/bin/phpstan analyse --configuration=phpstan.neon --memory-limit=-1",
+        "lint": "vendor/bin/phpcs",
+        "lint:fix": "vendor/bin/phpcbf"
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true,
+            "silverstripe/recipe-plugin": true,
+            "silverstripe/vendor-plugin": true,
+            "php-http/discovery": false
+        }
+    },
+    "extra": {
+        "expose": [
+            "client/dist/js",
+            "client/dist/styles"
+        ],
+        "branch-alias": {
+            "dev-main": "6.x-dev"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SilverShop\\CookieConsent\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SilverShop\\CookieConsent\\Tests\\": "tests/php/"
+        }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
+}

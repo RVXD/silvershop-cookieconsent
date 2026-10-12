@@ -1,0 +1,330 @@
+/*
+ * SilverShop Cookie Consent — default, self-contained styling (compiled).
+ *
+ * Framework-neutral and token-driven: override any --cc-* custom property from
+ * your theme to restyle, or disable this stylesheet entirely
+ * (ConsentState.include_css: false) and style the .consent* classes yourself.
+ * Uses em/px (never rem) so it renders correctly on themes that set
+ * html { font-size: 62.5% }. Everything is scoped under the consent components.
+ */
+
+.consent,
+.consent-embed,
+.cookie-declaration,
+.cookie-manage {
+    --cc-bg: #ffffff;
+    --cc-fg: #1a1a1a;
+    --cc-muted: #4a4a4a;
+    --cc-primary: #155e9c;
+    --cc-primary-fg: #ffffff;
+    --cc-border: #c9c9c9;
+    --cc-radius: 8px;
+    --cc-shadow: 0 4px 30px rgba(0, 0, 0, 0.25);
+    --cc-focus: #0a3d62;
+
+    box-sizing: border-box;
+    color: var(--cc-fg);
+    font-family: inherit;
+    line-height: 1.5;
+}
+
+.consent *,
+.consent *::before,
+.consent *::after,
+.consent-embed *,
+.cookie-declaration *,
+.cookie-manage * {
+    box-sizing: border-box;
+}
+
+.consent .visually-hidden,
+.cookie-manage .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------------------------------------------------------------- banner */
+
+@keyframes cc-enter {
+    from { transform: translateY(1.5em); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.consent {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    padding: 0.75em;
+    pointer-events: none;
+}
+
+.consent[hidden] {
+    display: none;
+}
+
+.consent__inner {
+    width: 100%;
+    max-width: 760px;
+    padding: 1.25em 1.5em;
+    background: var(--cc-bg);
+    border: 1px solid var(--cc-border);
+    border-radius: var(--cc-radius);
+    box-shadow: var(--cc-shadow);
+    animation: cc-enter 0.4s ease-out both;
+    pointer-events: auto;
+}
+
+.consent__title {
+    margin: 0 0 0.4em;
+    font-size: 1.2em;
+    color: var(--cc-fg);
+}
+
+.consent__text {
+    margin-bottom: 1em;
+    font-size: 0.95em;
+    color: var(--cc-muted);
+}
+
+.consent__text p {
+    margin: 0 0 0.5em;
+}
+
+.consent__text p:last-child {
+    margin-bottom: 0;
+}
+
+.consent__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.consent__policy-link {
+    color: var(--cc-primary);
+}
+
+/* ---------------------------------------------------------- preferences */
+
+.consent__prefs {
+    margin: 0 0 1em;
+    padding-top: 0.75em;
+    border-top: 1px solid var(--cc-border);
+}
+
+.consent__prefs[hidden] {
+    display: none;
+}
+
+.consent__pref {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    padding: 0.55em 0;
+    border-bottom: 1px solid var(--cc-border);
+}
+
+.consent__pref:last-child {
+    border-bottom: 0;
+}
+
+.consent__pref strong {
+    display: block;
+    font-size: 0.95em;
+}
+
+.consent__pref span {
+    font-size: 0.85em;
+    color: var(--cc-muted);
+}
+
+/* -------------------------------------------------------------- switches */
+
+.consent .switch,
+.cookie-manage .switch {
+    position: relative;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+}
+
+.consent .switch__input {
+    width: 1.2em;
+    height: 1.2em;
+    cursor: pointer;
+}
+
+.consent .switch__input:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* ---------------------------------------------------------------- buttons */
+
+.consent__btn {
+    display: inline-block;
+    padding: 0.6em 1.2em;
+    min-height: 2.75em;
+    font-size: 1em;
+    font-family: inherit;
+    line-height: 1.4;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid var(--cc-primary);
+    border-radius: var(--cc-radius);
+    cursor: pointer;
+    background: transparent;
+    color: var(--cc-primary);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.consent__btn--primary {
+    background: var(--cc-primary);
+    color: var(--cc-primary-fg);
+}
+
+.consent__btn--primary:hover,
+.consent__btn--primary:focus {
+    background: var(--cc-focus);
+    border-color: var(--cc-focus);
+}
+
+.consent__btn--secondary:hover,
+.consent__btn--secondary:focus {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.consent__btn--ghost,
+.consent__btn--link,
+.consent__btn--save {
+    border-color: transparent;
+    background: transparent;
+    color: var(--cc-primary);
+    text-decoration: underline;
+}
+
+.consent__btn--ghost:hover,
+.consent__btn--ghost:focus,
+.consent__btn--link:hover,
+.consent__btn--link:focus,
+.consent__btn--save:hover,
+.consent__btn--save:focus {
+    color: var(--cc-focus);
+}
+
+.consent__btn:focus-visible {
+    outline: 3px solid var(--cc-focus);
+    outline-offset: 2px;
+}
+
+/* ------------------------------------------------- declaration + manage */
+
+.cookie-declaration {
+    margin: 1em 0;
+}
+
+.cookie-declaration__title {
+    margin: 0 0 0.4em;
+    font-size: 1.05em;
+}
+
+.cookie-declaration__scroll {
+    overflow-x: auto;
+}
+
+.cookie-declaration__table {
+    width: 100%;
+    font-size: 0.85em;
+    border-collapse: collapse;
+}
+
+.cookie-declaration__table th,
+.cookie-declaration__table td {
+    padding: 0.4em 0.6em;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--cc-border);
+}
+
+.cookie-declaration__table th {
+    font-weight: 700;
+}
+
+.cookie-manage__cat {
+    margin: 0 0 1em;
+    padding: 0 0 0.5em;
+    border: 0;
+    border-bottom: 1px solid var(--cc-border);
+}
+
+.cookie-manage__toggle {
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+    font-size: 1em;
+}
+
+.cookie-manage__required {
+    font-weight: 400;
+    color: var(--cc-muted);
+}
+
+.cookie-manage__desc {
+    margin: 0.3em 0;
+    font-size: 0.9em;
+    color: var(--cc-muted);
+}
+
+/* ----------------------------------------------------------- click-to-load */
+
+.consent-embed {
+    position: relative;
+    background: #efefef;
+    border: 1px solid var(--cc-border);
+    border-radius: var(--cc-radius);
+    overflow: hidden;
+}
+
+.consent-embed--16x9 { aspect-ratio: 16 / 9; }
+.consent-embed--4x3 { aspect-ratio: 4 / 3; }
+.consent-embed--1x1 { aspect-ratio: 1 / 1; }
+
+.consent-embed__placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    align-items: center;
+    justify-content: center;
+    padding: 1em;
+    text-align: center;
+    color: var(--cc-fg);
+}
+
+.consent-embed__frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* ------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .consent__inner { animation: none; }
+    .consent__btn { transition: none; }
+}

@@ -1,0 +1,49 @@
+---
+Name: silvershop-cookieconsent
+---
+SilverShop\CookieConsent\ConsentState:
+  # The standard, industry taxonomy (Cookiebot / Klaro style). Each category
+  # carries: whether it is active, whether it is required (always-on, cannot be
+  # rejected), its Google Consent Mode v2 signal map, and the cookies declared
+  # under it (seeded into the CMS declaration on dev/build).
+  categories:
+    necessary:
+      active: true
+      required: true
+      consent_modes:
+        - security_storage
+      cookies:
+        local:
+          - PHPSESSID
+          - SilverShopConsent
+    preferences:
+      active: true
+      required: false
+      consent_modes:
+        - functionality_storage
+        - personalization_storage
+    statistics:
+      active: true
+      required: false
+      consent_modes:
+        - analytics_storage
+      cookies:
+        local:
+          - _ga
+          - _gat
+          - _gid
+    marketing:
+      active: true
+      required: false
+      consent_modes:
+        - ad_storage
+        - ad_user_data
+        - ad_personalization
+
+SilverStripe\CMS\Controllers\ContentController:
+  extensions:
+    - SilverShop\CookieConsent\Extension\ContentControllerExtension
+
+SilverStripe\SiteConfig\SiteConfig:
+  extensions:
+    - SilverShop\CookieConsent\Extension\SiteConfigExtension
