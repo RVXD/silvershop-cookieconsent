@@ -282,6 +282,11 @@
         this.prefs = this.banner.querySelector('#consent-prefs')
             || this.banner.querySelector('.consent__prefs');
         this.bindBanner();
+        // Show a theme-hosted banner when a prompt is due and no decision exists,
+        // so the module is self-sufficient (does not rely on the theme's own JS).
+        if (this.config.needsPrompt && !this.hasDecision() && this.banner.hidden) {
+            this.showBanner();
+        }
     };
 
     proto.bindBanner = function () {
