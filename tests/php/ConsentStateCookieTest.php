@@ -6,6 +6,7 @@ namespace SilverShop\CookieConsent\Tests;
 
 use SilverShop\CookieConsent\ConsentState;
 use SilverStripe\Control\Cookie;
+use SilverStripe\Control\Director;
 use SilverStripe\Dev\SapphireTest;
 
 /**
@@ -78,5 +79,28 @@ class ConsentStateCookieTest extends SapphireTest
         $first = ConsentState::consentId();
         ConsentState::save(['statistics', 'marketing']);
         $this->assertSame($first, ConsentState::consentId(), 'pseudonymous id is stable across decisions');
+    }
+
+    /**
+     * The consent cookie must NOT be marked Secure over plain HTTP, or the
+     * browser silently drops it and consent never persists (regression guard
+     * for the write path: Secure is keyed to the real protocol, not dev/live).
+     */
+    public function testCookieIsNotSecureOverHttp(): void
+    {
+        Director::config()->set('alternate_base_url', 'http://consent-test.example');
+        $this->assertFalse(
+            ConsentState::cookieIsSecure(),
+            'consent cookie must not carry Secure over http so it persists on plain-http dev/staging'
+        );
+    }
+
+    public function testCookieIsSecureOverHttps(): void
+    {
+        Director::config()->set('alternate_base_url', 'https://consent-test.example');
+        $this->assertTrue(
+            ConsentState::cookieIsSecure(),
+            'consent cookie must carry Secure over https'
+        );
     }
 }

@@ -493,14 +493,32 @@ class ConsentState
     }
 
     /**
-     * Write the consent cookie. Secure in live only (to allow cross-domain dev),
+     * Whether the consent cookie must carry the Secure attribute.
+     *
+     * Keyed to the ACTUAL request protocol, not the environment mode: Secure is
+     * set only when the request is served over HTTPS. The previous behaviour
+     * (`!Director::isDev()`) marked the cookie Secure on every non-dev
+     * environment, so a site served over plain HTTP — a common staging / test /
+     * internal setup — had the browser silently drop the cookie, and consent
+     * never persisted (the banner kept reappearing and $HasConsent never
+     * reflected the choice). Keyed to the real protocol it is correct on both
+     * http (dev / staging) and https (production), and pairs with the http-safe
+     * SameSite=Lax default (never SameSite=None, which would force Secure).
+     */
+    public static function cookieIsSecure(): bool
+    {
+        return Director::is_https();
+    }
+
+    /**
+     * Write the consent cookie. Secure only over HTTPS (see {@see self::cookieIsSecure()}),
      * JS-readable (httpOnly=false) and 365-day so a returning visitor keeps their
      * decision until the lifetime / version logic re-prompts.
      */
     protected static function writeCookie(array $payload): void
     {
         $domain = static::config()->get('cookie_domain') ?: null;
-        $secure = !Director::isDev();
+        $secure = static::cookieIsSecure();
         $sameSite = static::config()->get('same_site') ?: Cookie::SAMESITE_LAX;
 
         Cookie::set(
