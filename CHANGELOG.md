@@ -3,6 +3,22 @@
 All notable changes to `silvershop/cookieconsent` are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/) and the project adheres to Semantic Versioning.
 
+## [1.0.1] — 2026-10-13
+
+### Fixed
+
+- **Consent cookie dropped on plain HTTP.** The `SilverShopConsent` cookie keyed its `Secure` attribute to the
+  environment mode (`!Director::isDev()`), so any non-dev environment served over plain HTTP (staging / test /
+  internal) set `Secure` and the browser silently dropped the cookie — consent never persisted, the banner kept
+  reappearing and `$HasConsent()` never reflected the choice. `Secure` is now keyed to the actual request protocol
+  (`Director::is_https()`), so it is correct on both http (dev / staging) and https (production), and pairs with the
+  existing http-safe `SameSite=Lax` default. New `ConsentState::cookieIsSecure()` seam, covered by tests.
+- **Custom "Save preferences" stored nothing.** The client collected a preference checkbox's category from
+  `value || name`, but a checkbox with no `value` attribute reports `"on"`, masking name-keyed checkboxes
+  (`name="analytics"`). It now reads `name` before the default `value`, so themes using the natural `name=` pattern
+  save the chosen categories (resolved through the existing name aliases, e.g. `analytics → statistics`). The module's
+  own injected banner (which carries `data-consent-category`) is unaffected.
+
 ## [Unreleased]
 
 ### Added — initial module (slices 1–3 of the plan)

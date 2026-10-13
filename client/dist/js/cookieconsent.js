@@ -263,8 +263,11 @@
         var inputs = this.prefs.querySelectorAll('input[type="checkbox"]');
         Array.prototype.forEach.call(inputs, function (input) {
             if (input.checked || input.disabled) {
+                // Prefer the explicit category, then the field name, then the value.
+                // A checkbox with no value attribute reports value "on", so reading
+                // value first would mask a name-keyed checkbox (name="analytics").
                 var cat = input.getAttribute('data-consent-category')
-                    || self.normalizeCategory(input.value || input.name);
+                    || self.normalizeCategory(input.name || input.value);
                 if (cat && cats.indexOf(cat) === -1) { cats.push(cat); }
             }
         });
@@ -339,7 +342,7 @@
         Array.prototype.forEach.call(inputs, function (input) {
             if (input.disabled) { return; }
             var cat = input.getAttribute('data-consent-category')
-                || self.normalizeCategory(input.value || input.name);
+                || self.normalizeCategory(input.name || input.value);
             input.checked = self.has(cat);
         });
     };

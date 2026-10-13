@@ -238,8 +238,11 @@ export default class CookieConsentRuntime {
         if (!this.prefs) { return cats; }
         this.prefs.querySelectorAll('input[type="checkbox"]').forEach((input) => {
             if (input.checked || input.disabled) {
+                // Prefer the explicit category, then the field name, then the value.
+                // A checkbox with no value attribute reports value "on", so reading
+                // value first would mask a name-keyed checkbox (name="analytics").
                 const cat = input.getAttribute('data-consent-category')
-                    || this.normalizeCategory(input.value || input.name);
+                    || this.normalizeCategory(input.name || input.value);
                 if (cat && cats.indexOf(cat) === -1) { cats.push(cat); }
             }
         });
@@ -307,7 +310,7 @@ export default class CookieConsentRuntime {
         this.prefs.querySelectorAll('input[type="checkbox"]').forEach((input) => {
             if (input.disabled) { return; }
             const cat = input.getAttribute('data-consent-category')
-                || this.normalizeCategory(input.value || input.name);
+                || this.normalizeCategory(input.name || input.value);
             input.checked = this.has(cat);
         });
     }
